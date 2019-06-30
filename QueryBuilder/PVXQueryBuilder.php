@@ -113,8 +113,9 @@ class PVXQueryBuilder{
     //COND
     public function condition(String $column, String $operator, String $value) : PVXQueryBuilder
     {
-
-        static::$query .= self::$templateType->column(static::getColumn($column));
+        $tempQuery = '';
+        $tempQuery .= self::$templateType->column(static::getColumn($column)); 
+        //static::$query .= 
 
         //to add negative, append to a temp variable instead, then append to query
 
@@ -122,38 +123,41 @@ class PVXQueryBuilder{
 
         switch ($operator){
             case "=":
-                static::$query .= self::$templateType->equals($value);
+                $tempQuery .= self::$templateType->equals($value);
                 break;
             case "!=":
-                static::$query .= sprintf('.NotEquals("%s")', $value); //FIX THIS
+                $tempQuery .= self::$templateType->equals($value);
+                $tempQuery = "!" . $tempQuery;
                 break;
             case ">":
-                static::$query .= self::$templateType->moreThan($value);
+                $tempQuery .= self::$templateType->moreThan($value);
                 break;
             case "<":
-                static::$query .= self::$templateType->lessThan($value);
+                $tempQuery .= self::$templateType->lessThan($value);
                 break;
             case ">=":
-                static::$query .= self::$templateType->moreOrEquals($value);
+                $tempQuery .= self::$templateType->moreOrEquals($value);
                 break;
             case "<=":
-                static::$query .= self::$templateType->lessOrEquals($value);
+                $tempQuery .= self::$templateType->lessOrEquals($value);
                 break;
             case "contains":
-                static::$query .= self::$templateType->contains($value);
+                $tempQuery .= self::$templateType->contains($value);
                 break;
             case "not contains":
-                static::$query .= sprintf('.NotContains("%s")', $value); //FIX THIS
+                $tempQuery .= sprintf('.NotContains("%s")', $value); //FIX THIS
                 break;
             case "startswith":
-                static::$query .= self::$templateType->startsWith($value);
+                $tempQuery .= self::$templateType->startsWith($value);
                 break;
             case "endswith":
-                static::$query .= self::$templateType->endsWith($value);
+                $tempQuery .= self::$templateType->endsWith($value);
                 break;
             default:
                 throw new PVXQueryBuilderException("Wrong condition operator: $operator");
         }
+
+        static::$query .= $tempQuery;
 
         return self::getInstance();
     }
