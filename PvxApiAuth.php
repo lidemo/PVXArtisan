@@ -72,7 +72,7 @@ class PvxApiAuth
 /* require_once 'PvxGetData.php';
 require_once 'func.php';
 
-$pvxAuthObj = new PvxApiAuth('rng2744', 'ggeorgiev', 'goper');
+$pvxAuthObj = new PvxApiAuth('client_id', 'username', 'password');
 $authObj = $pvxAuthObj->authenticate();
 
 $getDataObj = new PvxGetData($authObj);
