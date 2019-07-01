@@ -145,7 +145,8 @@ class PVXQueryBuilder{
                 $tempQuery .= self::$templateType->contains($value);
                 break;
             case "not contains":
-                $tempQuery .= sprintf('.NotContains("%s")', $value); //FIX THIS
+                $tempQuery .= self::$templateType->contains($value);
+                $tempQuery = "!" . $tempQuery;
                 break;
             case "startswith":
                 $tempQuery .= self::$templateType->startsWith($value);
