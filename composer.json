@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "name" : "PVXArtisan",
     "version": "0.5",
@@ -13,3 +14,20 @@
         }
     }
 }
+=======
+{
+    "name" : "pvxartisan",
+    "version": "0.5",
+    "repositories": [
+        {
+        "url" : "https://github.com/lidemo/PVXArtisan.git",
+        "type" : "git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PVXArtisan\\" : "PVXArtisan/"
+        }
+    }
+}
+>>>>>>> 67923045f7f03cc8ffedd2caa491c28c11802ff0
