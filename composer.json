@@ -1,0 +1,15 @@
+{
+    "name" : "pvxartisan",
+    "version": "0.5",
+    "repositories": [
+        {
+        "url" : "https://github.com/lidemo/PVXArtisan.git",
+        "type" : "git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PVXArtisan\\" : "PVXArtisan/"
+        }
+    }
+}
