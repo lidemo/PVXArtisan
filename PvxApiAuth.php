@@ -13,14 +13,14 @@ class PvxApiAuth
 
     private $sessionId;
 
-    public function __construct(String $clientId, String $username, String $password) 
+    public function __construct(String $clientId, String $username, String $password, String $env = 'wms') 
     {
 
         $this->clientId = $clientId;
         $this->username = $username;
         $this->password = base64_encode($password);
 
-        $this->client = new SoapClient("http://wms.peoplevox.net/".$this->clientId."/resources/integrationservicev4.asmx?WSDL", ["trace" => 1]);
+        $this->client = new SoapClient("http://$env.peoplevox.net/".$this->clientId."/resources/integrationservicev4.asmx?WSDL", ["trace" => 1]);
 
     }
 

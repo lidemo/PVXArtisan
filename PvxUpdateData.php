@@ -10,6 +10,7 @@ class PvxImportData{
     protected $templateName;
 
     protected $fieldsCollection;
+    protected $whereClause = [];
     protected $importCsv;
 
     function __construct(PvxApiAuth $pvxAuth, String $templateName) 
@@ -18,12 +19,13 @@ class PvxImportData{
         $this->templateName = $templateName;
 
         $this->fieldsCollection = new \stdClass();
-        $this->getTemplateHeaders($templateName);
+
         
     }
 
-    public function save(int $action = 0) 
+    public function update(int $action = 0) 
     {
+        $this->getItemCurrentValues($templateName);
         $this->buildCsv();
         
         $headerbody = [
@@ -56,7 +58,7 @@ class PvxImportData{
 
     }
 
-    public function add(String $column, $value) 
+    public function set(String $column, String $value) 
     {
         if (!\in_array($column, $this->templateHeaders)) {
             throw new PVXImportDataException("There is no $column column in the template you are attempting to import to");
@@ -64,6 +66,11 @@ class PvxImportData{
         $this->fieldsCollection->{$column} = $value;
 
         return $this;
+    }
+
+    public function where(String $column, String $value) 
+    {
+        
     }
 
     public function buildCsv() 
@@ -82,12 +89,7 @@ class PvxImportData{
         echo $this->importCsv;
     }
 
-    public function getCsv() 
-    {
-         
-    }
-
-    public function getTemplateHeaders($templateName) 
+    public function getTemplateHeaders(String $templateName) 
     {
         $pvxGetSaveTemplate = new PvxGetSaveTemplate($this->pvxAuth);
         $templateCsv = $pvxGetSaveTemplate->get($templateName);
@@ -95,6 +97,10 @@ class PvxImportData{
         var_dump($templateCsv);
 
         $this->templateHeaders = explode(',', $templateCsv);
+    }
+
+    public function getItemCurrentValues() {
+        
     }
 
 }
