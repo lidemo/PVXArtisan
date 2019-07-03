@@ -2,6 +2,8 @@
 
 namespace PVXArtisan;
 
+use PVXArtisan\Exceptions\PVXGetSaveTemplateException;
+
 class PvxGetSaveTemplate{
 
     protected $pvxAuth;
@@ -27,8 +29,6 @@ class PvxGetSaveTemplate{
 
 
         $template = $this->pvxAuth->getClient()->GetSaveTemplate($soapBody);
-        
-        //echo 'ddsa' . htmlentities();
 
         $xml = $this->pvxAuth->getClient()->__getLastRequest();
         $sXML = new \SimpleXMLElement($xml);
@@ -39,7 +39,15 @@ class PvxGetSaveTemplate{
             throw new Exception($template);
         }
 
+        $this->response =  $template->GetSaveTemplateResult;
         return $template->GetSaveTemplateResult->Detail;
+    }
+
+    public function getResponse() {
+        if (!isset($this->response)) {
+            throw new PVXGetSaveTemplateException('No response has been received yet.');
+        }
+        return $this->response;
     }
 
 }

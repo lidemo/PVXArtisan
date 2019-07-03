@@ -2,15 +2,16 @@
 
 namespace PVXArtisan;
 
+use PVXArtisan\Helpers\CsvToArrayConverter;
 use PVXArtisan\Exceptions\PVXImportDataException;
 
-class PvxImportData{
+class PvxUpdateData{
 
     protected $pvxAuth;
     protected $templateName;
 
     protected $fieldsCollection;
-    protected $whereClause = [];
+    protected $whereClauses = '';
     protected $importCsv;
 
     function __construct(PvxApiAuth $pvxAuth, String $templateName) 
@@ -19,7 +20,6 @@ class PvxImportData{
         $this->templateName = $templateName;
 
         $this->fieldsCollection = new \stdClass();
-
         
     }
 
@@ -60,17 +60,24 @@ class PvxImportData{
 
     public function set(String $column, String $value) 
     {
-        if (!\in_array($column, $this->templateHeaders)) {
+/*         if (!\in_array($column, $this->templateHeaders)) {
             throw new PVXImportDataException("There is no $column column in the template you are attempting to import to");
-        }
+        } */
         $this->fieldsCollection->{$column} = $value;
 
         return $this;
     }
 
-    public function where(String $column, String $value) 
+
+    public function query(String $query) 
     {
-        
+        $this->query = $query;
+    }
+
+    public function where(String $where) 
+    {
+        //FIX or remove
+        $this->whereClauses = $where;
     }
 
     public function buildCsv() 
@@ -99,8 +106,21 @@ class PvxImportData{
         $this->templateHeaders = explode(',', $templateCsv);
     }
 
-    public function getItemCurrentValues() {
-        
+    public function checkItemExists() 
+    {
+        $pvxGetData = new PvxGetData($this->pvxAuth);
+        $pvxGetData->setTemplateName($this->templateName);
+        $pvxGetData->setSearchClause($this->query);
+
+        $data = $pvxGetData->get();
+
+        $resultCount = $pvxGetData->getTotalCount();
+
+        if ($resultCount < 1) {
+            return false;
+        }
+
+        return true;
     }
 
 }
