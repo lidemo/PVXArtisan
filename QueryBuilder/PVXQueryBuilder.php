@@ -6,7 +6,7 @@ use PVXArtisan\Exceptions\PVXQueryBuilderException;
 
 use PVXArtisan\Contracts\PVXTemplateContract;
 use PVXArtisan\Contracts\PVXTemplateTypeContract;
-
+use PVXArtisan\Config\Config;
 
 class PVXQueryBuilder{
 
@@ -77,17 +77,23 @@ class PVXQueryBuilder{
 
     protected function structureDatetime(Array $datetime) : String 
     {
-        $tempDay = $datetime[0];
-        $datetime[0] = $datetime[2];
-        $datetime[2] = $tempDay;
+        if (strlen($datetime[2]) > 2) {
+            $tempDay = $datetime[0];
+            $datetime[0] = $datetime[2];
+            $datetime[2] = $tempDay;
+        }
 
         return implode(",", $datetime);
     }
 
     protected function validateDatetime(String $datetime) : Array
     {
-        $datetimeArr = preg_split("/([:\/ ])/", $datetime);
 
+        if (strpos($datetime, '/')) $datetimeArr = preg_split("/([:\/ ])/", $datetime);
+        if (strpos($datetime, '-')) $datetimeArr = preg_split("/([:\- ])/", $datetime);
+
+        
+        
         $datetimeLength = count($datetimeArr);
 
         if ($datetimeLength > 6) throw new PVXQueryBuilderException("Too many elements for datetime");
@@ -102,6 +108,13 @@ class PVXQueryBuilder{
             }else if ( ($i == 3 || $i == 4 || $i == 5) && !isset($datetimeArr[$i]) ) {
                 $datetimeArr[$i] = "00";
             }
+        }
+
+        //PVX sometimes require to query datetime with minus one hour to the time you actually want to query. Change in Config class.
+        if (isset($datetimeArr[3])) {
+            $offset = Config::get()->datetime->offset;
+            $offsetOperation = Config::get()->datetime->offsetOperation;
+            $datetimeArr[3] = eval("return $datetimeArr[3]  {$offsetOperation} {$offset};");
         }
 
         return $datetimeArr;
