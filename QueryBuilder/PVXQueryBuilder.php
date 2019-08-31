@@ -204,14 +204,14 @@ class PVXQueryBuilder{
         return self::getInstance();       
     }
 
-    public function linkTemplate(PVXTemplateContract $template) {
+    public static function linkTemplate(PVXTemplateContract $template) {
         self::$template = $template;
         self::$templateType = new $template->type();
 
         return self::getInstance();
     }
 
-    public function type(PVXTemplateTypeContract $type) {
+    public static function type(PVXTemplateTypeContract $type) {
         
         self::$templateType = $type;
         
