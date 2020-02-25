@@ -1,7 +1,7 @@
 <?php
 function integration_export($template,$pageno,$perpage,$search){
 	$ns = "http://www.peoplevox.net/";
-$clientid = "rng2744"; 
+$clientid = ""; 
 $username = ""; 
 $password = base64_encode("");  
 $socket_context = stream_context_create(array('http' => array('protocol_version'  => 1.0)));
@@ -78,7 +78,7 @@ function get2DimFromCSV($csv) {
 
 function integration_import($template,$csv,$action){
 	$ns = "http://www.peoplevox.net/";
-$clientid = "rng2744"; 
+$clientid = ""; 
 $username = ""; 
 $password = base64_encode("");  
 $socket_context = stream_context_create(array('http' => array('protocol_version'  => 1.0)));
