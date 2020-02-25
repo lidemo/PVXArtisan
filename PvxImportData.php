@@ -43,7 +43,8 @@ class PvxImportData{
             ]
         ];
 
-        var_dump($this->pvxAuth->getClient());
+        echo '<pre>';
+        print_r($this->pvxAuth->getClient());
         $result = $this->pvxAuth->getClient()->SaveData($soapBody);
 
         if (is_soap_fault($result)) {
@@ -79,7 +80,7 @@ class PvxImportData{
         }
         
         $this->importCsv = $columns . $values;
-        echo $this->importCsv;
+        echo '<br />CSV:' . $this->importCsv;
     }
 
     public function getCsv() 

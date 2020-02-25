@@ -16,7 +16,7 @@ class IntegrationType implements PVXTemplateTypeContract{
         return "$value";
     }
 
-    public function equals(String $value) : String 
+    public function equals( $value) : String 
     {
         return " = \"$value\" ";
     }

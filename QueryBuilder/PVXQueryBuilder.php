@@ -111,7 +111,7 @@ class PVXQueryBuilder{
     
 
     //COND
-    public function condition(String $column, String $operator, String $value) : PVXQueryBuilder
+    public function condition(String $column, String $operator,  $value) : PVXQueryBuilder
     {
         $tempQuery = '';
         $tempQuery .= self::$templateType->column(static::getColumn($column)); 

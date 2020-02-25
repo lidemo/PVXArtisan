@@ -20,7 +20,7 @@ class PvxApiAuth
         $this->username = $username;
         $this->password = base64_encode($password);
 
-        $this->client = new SoapClient("http://$env.peoplevox.net/".$this->clientId."/resources/integrationservicev4.asmx?WSDL", ["trace" => 1]);
+        $this->client = new SoapClient("https://$env.peoplevox.net/".$this->clientId."/resources/integrationservicev4.asmx?WSDL", ["trace" => 1]);
 
     }
 
