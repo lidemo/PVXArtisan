@@ -26,13 +26,13 @@ class PvxGetSaveTemplate{
                 'templateName'  => $templateName
             ];
 
-
-
         $template = $this->pvxAuth->getClient()->GetSaveTemplate($soapBody);
 
-        $xml = $this->pvxAuth->getClient()->__getLastRequest();
+        //possibly save last request for debbuging? also if in all classes might see if
+        //inheritance good idea
+/*         $xml = $this->pvxAuth->getClient()->__getLastRequest();
         $sXML = new \SimpleXMLElement($xml);
-        echo htmlentities($sXML->asXML());
+        echo htmlentities($sXML->asXML()); */
 
 
         if (is_soap_fault($template)) {

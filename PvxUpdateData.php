@@ -4,6 +4,7 @@ namespace PVXArtisan;
 
 use PVXArtisan\Helpers\CsvToArrayConverter;
 use PVXArtisan\Exceptions\PVXImportDataException;
+use PVXArtisan\Exceptions\PVXUpdateDataException;
 
 class PvxUpdateData{
 
@@ -21,12 +22,18 @@ class PvxUpdateData{
 
         $this->fieldsCollection = new \stdClass();
         
+        
     }
 
     public function update(int $action = 0) 
     {
-        $this->getItemCurrentValues($templateName);
+        if (!isset($this->query)) {
+            throw new PVXUpdateDataException("No query set. Use \$pvxUpdateData->query(query)\" to set a query.");
+        }
+
+        $this->checkItemExists();
         $this->buildCsv();
+        
         
         $headerbody = [
             'UserId' => 0,
@@ -45,24 +52,23 @@ class PvxUpdateData{
             ]
         ];
 
-        var_dump($this->pvxAuth->getClient());
         $result = $this->pvxAuth->getClient()->SaveData($soapBody);
 
         if (is_soap_fault($result)) {
-            throw new PVXImportDataException($result);
+            throw new PVXUpdateDataException($result);
         }
 
         if ($result->SaveDataResult->ResponseId == -1) {
-            throw new PVXImportDataException("Save data failed with error msg: {$result->SaveDataResult->Detail}");
+            throw new PVXUpdateDataException("Update data failed with error msg: {$result->SaveDataResult->Detail}");
         }
 
     }
 
     public function set(String $column, String $value) 
     {
-/*         if (!\in_array($column, $this->templateHeaders)) {
+        if (!\in_array($column, $this->templateHeaders)) {
             throw new PVXImportDataException("There is no $column column in the template you are attempting to import to");
-        } */
+        }
         $this->fieldsCollection->{$column} = $value;
 
         return $this;
@@ -72,6 +78,8 @@ class PvxUpdateData{
     public function query(String $query) 
     {
         $this->query = $query;
+
+        return $this;
     }
 
     public function where(String $where) 
@@ -93,17 +101,20 @@ class PvxUpdateData{
         }
         
         $this->importCsv = $columns . $values;
-        echo $this->importCsv;
     }
 
-    public function getTemplateHeaders(String $templateName) 
+    public function getTemplateHeaders() 
     {
         $pvxGetSaveTemplate = new PvxGetSaveTemplate($this->pvxAuth);
-        $templateCsv = $pvxGetSaveTemplate->get($templateName);
+        $templateCsv = $pvxGetSaveTemplate->get($this->templateName);
 
-        var_dump($templateCsv);
+        if ($pvxGetSaveTemplate->getResponse()->TotalCount < 0) {
+            throw new PVXUpdateDataException("No template with $this->templateName found.");
+        }
 
         $this->templateHeaders = explode(',', $templateCsv);
+
+        return true;
     }
 
     public function checkItemExists() 
@@ -117,7 +128,7 @@ class PvxUpdateData{
         $resultCount = $pvxGetData->getTotalCount();
 
         if ($resultCount < 1) {
-            return false;
+            throw new PVXUpdateDataException("No record in PVX found conforming to this query: $this->query.");
         }
 
         return true;
