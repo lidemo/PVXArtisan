@@ -2,8 +2,8 @@
 function integration_export($template,$pageno,$perpage,$search){
 	$ns = "http://www.peoplevox.net/";
 $clientid = "rng2744"; 
-$username = "stats-api-mfc"; 
-$password = base64_encode("rave");  
+$username = ""; 
+$password = base64_encode("");  
 $socket_context = stream_context_create(array('http' => array('protocol_version'  => 1.0)));
 $client = new SoapClient("http://wms.peoplevox.net/$clientid/resources/integrationservicev4.asmx?WSDL", array('exceptions' => 0,'stream_context' => $socket_context,'trace' => 1)); 
 $date = date("Y,m,d");
@@ -79,8 +79,8 @@ function get2DimFromCSV($csv) {
 function integration_import($template,$csv,$action){
 	$ns = "http://www.peoplevox.net/";
 $clientid = "rng2744"; 
-$username = "stats-api-mfc"; 
-$password = base64_encode("rave");  
+$username = ""; 
+$password = base64_encode("");  
 $socket_context = stream_context_create(array('http' => array('protocol_version'  => 1.0)));
 $client = new SoapClient("http://wms.peoplevox.net/$clientid/resources/integrationservicev4.asmx?WSDL", array('exceptions' => 0,'stream_context' => $socket_context,'trace' => 1)); 
 //$date = date("Y,m,d");
