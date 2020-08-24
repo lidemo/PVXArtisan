@@ -9,6 +9,7 @@ class PvxGetData
     protected $pvxAuth;
     protected $templateName = "";
     protected $pageNo = "1";
+    protected $columns = "";
     protected $itemsPerPage = "0";
     protected $searchClause = "";
 
@@ -92,6 +93,10 @@ class PvxGetData
 
     public function setPageNo(Int $pageNo) {
         $this->pageNo = $pageNo;
+    }
+
+    public function setColumns($columns) {
+        $this->columns = $columns;
     }
 
     public function setItemsPerPage(Int $itemsPerPage) {
