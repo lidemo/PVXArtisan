@@ -40,7 +40,7 @@ class PVXQueryBuilder{
     }
 
     //DATETIME METHODS MOVE MOST TO ANOTHER CLASS!
-    public function datetime(String $from, String $to = null, String $datetimeColumn = null) : PVXQueryBuilder
+    public static function datetime(String $from, String $to = null, String $datetimeColumn = null) : PVXQueryBuilder
     {
         $from = static::parseDateTime($from);
 
@@ -66,7 +66,7 @@ class PVXQueryBuilder{
         return self::getInstance();
     }
 
-    protected function parseDateTime(String $datetime) : String
+    protected static function parseDateTime(String $datetime) : String
     {
         $datetime = static::validateDatetime($datetime);
 
@@ -75,7 +75,7 @@ class PVXQueryBuilder{
         return $datetime;
     }
 
-    protected function structureDatetime(Array $datetime) : String 
+    protected static function structureDatetime(Array $datetime) : String 
     {
         $tempDay = $datetime[0];
         $datetime[0] = $datetime[2];
@@ -84,7 +84,7 @@ class PVXQueryBuilder{
         return implode(",", $datetime);
     }
 
-    protected function validateDatetime(String $datetime) : Array
+    protected static function validateDatetime(String $datetime) : Array
     {
         $datetimeArr = preg_split("/([:\/ ])/", $datetime);
 
