@@ -96,11 +96,11 @@ class PVXQueryBuilder{
 
         for ($i=0; $i < 6; $i++) {
             if ( $i == 1 && !isset($datetimeArr[$i]) ) {
-                $datetimeArr[$i] = $datetimeArr[$i];  //GET THIS MONTH HERE FROM HELPER CLASS
+                $datetimeArr[$i] = date('m');  //GET THIS MONTH HERE FROM HELPER CLASS
             }else if ($i == 2 && !isset($datetimeArr[$i])) {
-                $datetimeArr[$i] = $datetimeArr[$i]; //GET THIS YEAR HERE
+                $datetimeArr[$i] = date('Y'); //GET THIS YEAR HERE
             }else if ( ($i == 3 || $i == 4 || $i == 5) && !isset($datetimeArr[$i]) ) {
-                $datetimeArr[$i] = $datetimeArr[$i];
+                $datetimeArr[$i] = '00';
             }
         }
 
