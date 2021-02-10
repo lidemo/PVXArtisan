@@ -11,6 +11,7 @@ class PvxGetReport{
     protected $itemsPerPage = "0";
     protected $searchClause = "";
     protected $columns = "";
+    protected $orderBy = "";
 
     protected $responseId;
     protected $totalCount;
@@ -43,7 +44,8 @@ class PvxGetReport{
                 'PageNo'       => $this->pageNo,
                 'ItemsPerPage' => $this->itemsPerPage,
                 'SearchClause' => $this->searchClause,
-                'Columns'      => $this->columns
+                'Columns'      => $this->columns,
+                'OrderBy'       => $this->orderBy,
             ] 
         ];
 
@@ -105,6 +107,11 @@ class PvxGetReport{
 
     public function setColumns(String $columns) {
         $this->columns = $columns;
+    }
+
+    public function orderBy(String $orderBy)
+    {
+        $this->orderBy = $orderBy;
     }
 
 
