@@ -65,6 +65,11 @@ class PvxApiAuth
         return $this->clientId;
     }
 
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+    }
+
 
 }
 
