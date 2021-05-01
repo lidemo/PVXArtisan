@@ -34,7 +34,8 @@ $pvxAuth = new PVXApiAuth('clientId', 'username', 'password');
 */
 $data = (new PvxReport($pvxAuth, 'Sales order summary')
   ->datetime('01/01/2020 07:00', '02/01/2020 10:00', 'Requested delivery date')
-  ->where('Status', '!=', 'Cancelled')->get(['Sales order no.', 'Status']);
+  ->where('Status', '!=', 'Cancelled')
+  ->get(['Sales order no.', 'Status']);
 ```
 <br></br>
 Importing data into PVX
