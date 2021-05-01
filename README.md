@@ -21,7 +21,7 @@ $orderData = (new PvxEntity($pvxAuth, 'Sales orders'))->where('SalesOrderNumber'
 /** 
 * Pull a list of items with ->get() 
 */
-$data = (new PvxEntity($pvxAuth, 'Sales orders'))->where('SalesOrderNumber', 'not contains', S123')->get();
+$data = (new PvxEntity($pvxAuth, 'Sales orders'))->where('SalesOrderNumber', 'not contains', 'S123')->get();
 ```
 <br></br>
  
