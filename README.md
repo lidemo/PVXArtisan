@@ -33,7 +33,7 @@ $pvxAuth = new PVXApiAuth('clientId', 'username', 'password');
 * Pull data with a specified time frame and get only the fields you require
 */
 $data = (new PvxReport($pvxAuth, 'Sales order summary')
-  ->datetime('01/01/2020 07:00', '02/01/2020 10:00', 'Requested delivery date')
+  ->whereDateBetween('Requested delivery date', '01/01/2020 07:00', '02/01/2020 10:00')
   ->where('Status', '!=', 'Cancelled')
   ->get(['Sales order no.', 'Status']);
 ```
